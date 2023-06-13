@@ -9,4 +9,3 @@
 #define VK_Q 0x51
 #define VK_R 0x52 // restart
 #define VK_S 0x53
-
