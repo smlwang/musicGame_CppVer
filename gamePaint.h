@@ -72,7 +72,6 @@ struct GamePainter {
         Rectangle(hdc, 0, 0, 900, 900);
         DeleteObject(brush);
 
-        DeleteObject(brush);
         brush = CreateSolidBrush(Info.baseline.color);
         SelectObject(hdc, brush);
         Rectangle(hdc, Info.baseline.l, Info.baseline.y - 3, Info.baseline.r,
