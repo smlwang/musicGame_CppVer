@@ -2,13 +2,19 @@
 #include <Windows.h>
 #include <iostream>
 struct GameINFO {
-    const double speed = 1;
-    // 判定区间 ms
+
+    //判定区间 ms
     const int goodJudge = 150;
     const int greatJudge = 90;
+    const int longEdJudge = 75;
     const int perfectJudge = 50;
     const int truePerfect = 30;
-    // 判定结果
+
+    const int acc_miss = 1000;
+    const int acc_good = 600;
+    const int acc_great = 300;
+
+    //判定结果
     const int noAct = -1;
     const int miss = 0;
     const int good = 1;
@@ -35,7 +41,9 @@ struct GameINFO {
     struct TrackShift {
         const int offset = 200;
         const int width = 100;
-        int left(int idx) const { return offset + width * idx; }
+        int left(int idx) const {
+            return offset + width * idx;
+        }
     } track;
     struct Press {
         const COLORREF color = RGB(5, 83, 205);
@@ -43,7 +51,7 @@ struct GameINFO {
     struct Note {
         const int click = 1;
         const int hold = 2;
-        const int high = 40;
+        const int high = 45;
         const int adjust = 5;
         const int bhigh = 10;
         const int perfectHigh = 2;
@@ -55,44 +63,41 @@ struct GameINFO {
     struct Combo {
         // const int x = 400;
         // const int y = 300;
-        const RECT rect = {260, 300, 560, 500};
-        const int size = 20;
+        const RECT rect = { 260, 300, 560, 500 };
+        const int size = 40;
         const int anime_time = 5;
         const COLORREF color = RGB(186, 163, 20);
     } combo;
 
     struct JudgeStat {
-        const int anime_time = 300, square = anime_time * anime_time;
+        const int anime_time = 200, square = anime_time * anime_time;
         const int additional_time = 100;
         const RECT rect = {300, 170, 550, 300};
-        // const int x = 300;
+        // const int x = 300; 
         // const int y = 200;
         struct stat {
             int size;
             COLORREF color;
             std::string str;
         };
-        stat good{
-            15,
+        stat good {
+            5,
             RGB(11, 189, 227),
             "Good",
-        },
-            great{
-                15,
-                RGB(4, 186, 22),
-                "Great",
-            },
-            perfect{
-                15,
-                RGB(255, 138, 0),
-                "Perfect",
-            },
-            miss{
-                25,
-                RGB(182, 23, 23),
-                "Miss!",
-            };
-        const stat kind[4] = {miss, good, great, perfect};
+        }, great  {
+            5,
+            RGB(4, 186, 22),
+            "Great",
+        }, perfect {
+            5,
+            RGB(255, 138, 0),
+            "Perfect",
+        }, miss {
+            10,
+            RGB(182, 23, 23),
+            "Miss!",
+        };
+        const stat kind[4] = { miss, good, great, perfect };
     } judge;
     struct hit {
         const int anime_time = 100;
@@ -108,15 +113,20 @@ struct GameINFO {
     } pause;
 
     struct score {
-        const RECT rect = {650, 100, 900, 200};
+        const RECT rect = { 650, 100, 900, 200 }; 
         const int size = 30;
         const COLORREF color = RGB(255, 155, 155);
 
     } score;
+    struct acc {
+        const RECT rect = { 650, 200, 900, 300 };
+        const int size = 15;
+        const COLORREF color = RGB(222, 220, 40);
+    } acc;
     struct statCount {
         const int w = 60, h = 35;
         const int d = 80;
-        const RECT rect = {100, 150, 600, 260};
+        const RECT rect = { 100, 150, 600, 260 };
     } statCount;
     struct timeLine {
         const int x = 720;

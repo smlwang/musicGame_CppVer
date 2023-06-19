@@ -1,21 +1,26 @@
 #pragma once
-#include "PaintEvent.h"
-#include "gameinfo.h"
 #include "note.h"
+#include "gameinfo.h"
+#include "PaintEvent.h"
 #include <iostream>
-#include <queue>
-
 class Track {
 
     bool keyPress = false;
     bool keyPrecheck = false;
     bool keyHold = false;
-
 public:
-    PaintEvent phitted{0, 0, 0, 0};
-    bool pressed() { return keyPress || keyHold; }
+
+    PaintEvent phitted{ 0, 0, 0, 0 };
+    bool pressed() {
+        return keyPress || keyHold;
+    }
+    
     std::vector<note> track;
-    Track(std::vector<note> &q) : track(q) {}
+    
+    Track(std::vector<note>&q) : track(q) {
+        
+    }
+    
     void keyChange(bool keyDown) {
         if (keyDown) {
             if (!pressed()) {
@@ -27,6 +32,7 @@ public:
             keyPress = 0;
         }
     }
+    
     void judgeKeyChange() {
         if (keyPress) {
             if (keyPrecheck) {
@@ -37,14 +43,18 @@ public:
             }
         }
     }
+    
     // gameTime 距离游戏开始时间
-
     int judge(long gameTime) {
-        judgeKeyChange();
-        if (track.size() == 0)
-            return Info.noAct;
+        judgeKeyChange(); // 处理按键变化
+        if (track.size() == 0) return Info.noAct;
         note &note = track.back();
+        // 未按下对应按键判定是否 miss
         if (!pressed()) {
+            if (track.back().dead) {
+                track.pop_back();
+                return Info.perfect;
+            }
             if (note.ed - gameTime < -Info.greatJudge) {
                 track.pop_back();
                 return Info.miss;
@@ -54,19 +64,19 @@ public:
 
         // deltaTime 与判定时间的差
         long deltaTime = note.st - gameTime;
-        if (deltaTime > Info.goodJudge) { // 没到前判不判定
+        // 没到前判不判定
+        if (deltaTime > Info.goodJudge) {
             return Info.noAct;
         }
-
-        if (note.kind == 1) { // click 判定
-            if (keyHold)
-                return Info.noAct;
+        // click 判定
+        if (note.kind == 1) { 
+            if (keyHold) return Info.noAct;
             track.pop_back();
             return clickJudge(deltaTime);
         }
-
+        
         // 长条判定
-        if (note.dead) {
+        if (note.ed < gameTime + Info.truePerfect && note.dead) {
             track.pop_back();
             return Info.perfect;
         }
@@ -75,20 +85,18 @@ public:
             track.pop_back();
             return Info.miss;
         }
-        long tailJudge = -Info.greatJudge;
+        
+        //长条尾判
         if (note.preCheck && pressed()) {
-            tailJudge = Info.perfectJudge + 10;
-        }
-        if (note.ed < gameTime + tailJudge) { // 长条尾判
-            if (note.preCheck && pressed()) {
+            if (note.ed < gameTime + Info.longEdJudge){
                 note.dead = true;
                 return Info.noAct;
             }
         }
 
-        if (!note.preCheck) { // 长条头判
-            if (keyHold)
-                return Info.noAct;
+        //长条头判
+        if (!note.preCheck) {
+            if (keyHold) return Info.noAct;
 
             if (std::abs(deltaTime) <= Info.greatJudge) {
                 note.preCheck = true;

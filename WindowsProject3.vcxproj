@@ -50,7 +50,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -132,11 +132,12 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gamePaint.h" />
-    <ClInclude Include="info.h" />
+    <ClInclude Include="gameinfo.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="mainView.h" />
     <ClInclude Include="mainViewInfo.h" />
     <ClInclude Include="mainViewPaint.h" />
+    <ClInclude Include="MusicPlayer.h" />
     <ClInclude Include="note.h" />
     <ClInclude Include="PaintEvent.h" />
     <ClInclude Include="Resource.h" />
@@ -155,6 +156,9 @@
   <ItemGroup>
     <Image Include="small.ico" />
     <Image Include="WindowsProject3.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
